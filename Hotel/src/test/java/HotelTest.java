@@ -12,29 +12,40 @@ public class HotelTest {
     RoomType roomType;
     Guest guest;
 
+    ArrayList<Booking> bookings = new ArrayList<>();
+
     ConferenceRoom conferenceRoom;
-    ArrayList<Bedroom> bedrooms;
-    ArrayList<ConferenceRoom> conferenceRooms;
+    ArrayList<Bedroom> bedrooms = new ArrayList<>();
+    ArrayList<ConferenceRoom> conferenceRooms = new ArrayList<>();
 
     @Before
     public void before(){
         guest = new Guest("Richard");
         roomType = RoomType.DOUBLE;
         bedroom = new Bedroom(roomType.getValue(), 69, roomType);
+        bedrooms.add(bedroom);
         conferenceRoom = new ConferenceRoom("Dalrymple Suite", 20);
-        hotel = new Hotel(bedrooms, conferenceRooms);
+        conferenceRooms.add(conferenceRoom);
+        hotel = new Hotel(bedrooms, conferenceRooms, bookings);
     }
 
     @Test
     public void canCheckGuestIntoRoom(){
-        hotel.checkInGuest(bedroom, guest);
+        hotel.checkInGuest(69, guest);
         assertEquals(1, bedroom.getNumberOfGuests());
     }
 
     @Test
     public void canCheckOutGuestFromRoom(){
-        hotel.checkInGuest(bedroom, guest);
-        hotel.checkOutGuest(bedroom, guest);
+        hotel.checkInGuest(69, guest);
+        hotel.checkOutGuest(69);
         assertEquals(0, bedroom.getNumberOfGuests());
     }
+
+    @Test
+    public void canMakeBooking(){
+        Booking booking = hotel.bookRoom(bedroom, 5);
+        assertEquals(booking, hotel.getBookings().get(0));
+    }
+
 }

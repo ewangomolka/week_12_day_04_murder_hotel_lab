@@ -5,9 +5,12 @@ public class Hotel {
     private ArrayList<Bedroom> bedrooms;
     private ArrayList<ConferenceRoom> conferenceRooms;
 
-    public Hotel(ArrayList<Bedroom> bedrooms, ArrayList<ConferenceRoom> conferenceRooms) {
+    private ArrayList<Booking> bookings;
+
+    public Hotel(ArrayList<Bedroom> bedrooms, ArrayList<ConferenceRoom> conferenceRooms, ArrayList<Booking> bookings) {
         this.bedrooms = bedrooms;
         this.conferenceRooms = conferenceRooms;
+        this.bookings = bookings;
     }
 
     public int getNumberOfBedrooms() {
@@ -18,11 +21,33 @@ public class Hotel {
         this.bedrooms.add(bedroom);
     }
 
-    public void checkInGuest(Bedroom bedroom, Guest guest) {
-        bedroom.addGuest(guest);
+    public void checkInGuest(int roomNumber, Guest guest) {
+        for (Bedroom bedroom : this.bedrooms){
+            if (bedroom.getRoomNumber() == roomNumber) {
+                bedroom.addGuest(guest);
+            }
+        }
     }
 
-    public void checkOutGuest(Bedroom bedroom, Guest guest) {
-        bedroom.removeGuest(guest);
+    public void checkOutGuest(int roomNumber) {
+        Bedroom foundRoom = null;
+        for (Bedroom bedroom : this.bedrooms){
+            if (bedroom.getRoomNumber() == roomNumber){
+                foundRoom = bedroom;
+            }
+        }
+
+        foundRoom.getGuests().clear();
+    }
+
+    public Booking bookRoom(Bedroom bedroom, int numberOfNights){
+        Booking booking = new Booking(bedroom, numberOfNights);
+        bookings.add(booking);
+        return booking;
+    }
+
+
+    public ArrayList<Booking> getBookings() {
+        return bookings;
     }
 }
