@@ -33,4 +33,9 @@ public abstract class Room {
     public void addGuest(Guest guest){
         this.guests.add(guest);
     }
+
+    public void removeGuest(Guest guest) {
+        int index = this.guests.indexOf(guest);
+        this.guests.remove(index);
+    }
 }
